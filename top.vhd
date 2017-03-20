@@ -5,7 +5,7 @@ entity top is
   port (
     a1 : in std_logic_vector(23 downto 0);
     a2 : in std_logic_vector(23 downto 0);
-    clk : in std_logic;
+    clock : in std_logic;
     reset : in std_logic;
     z : out std_logic_vector(23 downto 0)
   );
@@ -14,9 +14,11 @@ end top;
 architecture struct of top is
   component cpa24b is
     port (
-      x : in std_logic_vector(23 downto 0);
-      y : in std_logic_vector(23 downto 0);
-      s : out std_logic_vector(23 downto 0) 
+      x     : in std_logic_vector(23 downto 0);
+      y     : in std_logic_vector(23 downto 0);
+      cin   : in std_logic; 
+      s     : out std_logic_vector(23 downto 0);
+      cout  : out std_logic
     );
   end component;
   
@@ -28,5 +30,65 @@ architecture struct of top is
       clk : in std_logic
     );
   end component;
+  
+  signal reg1ToAdder,
+    reg2ToAdder,
+    adderToReg3 : std_logic_vector(23 downto 0);
 begin
+  reg1 : reg24b
+    port map (
+      d => a1
+      q => reg1ToAdder;
+      reset => reset,
+      clk => clock    
+    );
+    
+    reg2 : reg24b
+    port map (
+      d => a1
+      q => reg2ToAdder;
+      reset => reset,
+      clk => clock    
+    );
+    
+    reg3 : reg24b
+    port map (
+      d => a1
+      q => z
+      reset => reset,
+      clk => clock    
+    );
+    
+    adder : cpa24b
+      port map (
+        x => reg1ToAdder,
+        y => reg2ToAdder,
+        cin => 
+        z =>
+        cout =>
+      );
+      
 end struct;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
