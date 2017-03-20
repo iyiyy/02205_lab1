@@ -16,9 +16,7 @@ architecture struct of top is
     port (
       x     : in std_logic_vector(23 downto 0);
       y     : in std_logic_vector(23 downto 0);
-      cin   : in std_logic; 
-      s     : out std_logic_vector(23 downto 0);
-      cout  : out std_logic
+      z     : out std_logic_vector(23 downto 0)
     );
   end component;
   
@@ -33,28 +31,31 @@ architecture struct of top is
   
   signal reg1ToAdder,
     reg2ToAdder,
-    adderToReg3 : std_logic_vector(23 downto 0);
+    adderToReg3, 
+    result : std_logic_vector(23 downto 0);
 begin
+  z <= result;
+  
   reg1 : reg24b
     port map (
-      d => a1
-      q => reg1ToAdder;
+      d => a1,
+      q => reg1ToAdder,
       reset => reset,
       clk => clock    
     );
     
     reg2 : reg24b
     port map (
-      d => a1
-      q => reg2ToAdder;
+      d => a1,
+      q => reg2ToAdder,
       reset => reset,
       clk => clock    
     );
     
     reg3 : reg24b
     port map (
-      d => a1
-      q => z
+      d => a1,
+      q => result,
       reset => reset,
       clk => clock    
     );
@@ -63,9 +64,7 @@ begin
       port map (
         x => reg1ToAdder,
         y => reg2ToAdder,
-        cin => 
-        z =>
-        cout =>
+        z => adderToReg3
       );
       
 end struct;
